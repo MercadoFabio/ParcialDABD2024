@@ -1,0 +1,80 @@
+<form #form="ngForm" (ngSubmit)="onSubmit(form)" class="row g-3">
+  <h1>Ingreso a la playa</h1>
+  <div class="col-12">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="newDomainCheck" [(ngModel)]="model.newDomain"
+        name="newDomain" />
+      <label class="form-check-label" for="newDomainCheck">
+        Nuevo dominio?
+      </label>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <label for="inputModel" class="form-label">Modelo</label>
+    <input [ngClass]="{'is-invalid': modelo.invalid  && (modelo.dirty || modelo.touched),'is-valid': modelo.valid }"
+      #modelo="ngModel" type="text" class="form-control" id="inputModel" [(ngModel)]="model.model" name="model"
+      minlength="3" required />
+    @if(modelo.invalid && (modelo.dirty || modelo.touched)){
+    @if(modelo.getError('required')) {
+    <div class="text-danger">El modelo es obligatorio</div>
+    }@else{
+    <div class="text-danger">Debe contener como minimo 3 caracteres.</div>
+    }}
+  </div>
+  <div class="col-md-4">
+    <label for="inputDomain" class="form-label">Dominio</label>
+    <input #domain="ngModel"
+      [ngClass]="{'is-invalid': domain.invalid  && (domain.dirty || domain.touched),'is-valid': domain.valid }"
+      type="text" class="form-control" id="inputDomain" [(ngModel)]="model.domain" name="domain"
+      [minlength]="model.newDomain ? 7 : 6" [maxlength]="model.newDomain ? 7 : 6" required />
+    @if(domain.invalid && (domain.dirty || domain.touched)){
+    @if(domain.getError('required')) {
+    <div class="text-danger">El dominio es obligatorio</div>
+    }@else if(model.newDomain && domain.getError('minlength')){
+    <div class="text-danger">El dominio debe tener 7 caracteres alfanuméricos.</div>
+    }@else {
+    <div class="text-danger">El dominio debe tener 6 caracteres alfanuméricos.</div>
+    }}
+  </div>
+  <div class="col-md-6">
+    <label for="checkInInputTime" class="form-label">Hora de Ingreso</label>
+    <input #time="ngModel"
+      [ngClass]="{'is-invalid': time.invalid  && (time.dirty || time.touched),'is-valid': time.valid }" type="time"
+      class="form-control" [(ngModel)]="model.checkInTime" name="checkInTime" required />
+    @if(time.invalid && time.dirty){
+    <div class="text-danger">La hora de ingreso es obligatoria.</div>
+    }
+
+  </div>
+  <div class="col-md-3">
+    <label for="brandSelect" class="form-label">Marca</label>
+    <select #brand="ngModel" class="form-select" id="brandSelect" [(ngModel)]="model.brand" name="brand"
+    [ngClass]="{'is-invalid': brand.invalid  && (brand.dirty || brand.touched),'is-valid': brand.valid }"
+    required>
+      @for(brand of brands ; track brand){
+      <option [value]="brand.id">{{brand.name}}</option>
+      }
+    </select>
+    @if(brand.invalid && (brand.dirty || brand.touched)){
+      <div class="text-danger">Seleccione una marca.</div>
+      }
+  </div>
+  <div class="col-md-3">
+    <label for="vehicleTypeSelect" class="form-label">Tipo Vehiculo</label>
+    <select class="form-select" id="vehicleTypeSelect" [(ngModel)]="model.vehicleType" name="vehicleType"
+    #vehicleType="ngModel" 
+    [ngClass]="{'is-invalid': vehicleType.invalid  && (vehicleType.dirty || vehicleType.touched),'is-valid': vehicleType.valid }"
+    required>
+    @for(vehicle of vehicleTypes;track vehicle.id){
+      <option [value]="vehicle.id">{{vehicle.name}}</option>
+    }
+    </select>
+    @if(vehicleType.invalid && (vehicleType.dirty || vehicleType.touched)){
+      <div class="text-danger">Seleccione un tipo de vehículo.</div>
+    }
+  </div>
+  <div class="col-12">
+    <button class="btn btn-secondary" type="submit">Cancelar</button>
+    <button class="btn btn-primary m-3" type="submit">Registrar ingreso</button>
+  </div>
+</form>

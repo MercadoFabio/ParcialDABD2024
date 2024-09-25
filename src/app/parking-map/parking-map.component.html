@@ -1,0 +1,30 @@
+<div class="row text-center mt-4">
+  @for(slot of parkingLot; track $index){
+  <div class="col-2">
+    <div [ngClass]="{'border-success': slot.availablePlaces > 0, 'border-danger': slot.availablePlaces === 0}"
+      class="border rounded mb-3 p-2 d-flex justify-content-center align-items-center bg-light">
+      <div class="d-flex justify-content-center align-items-center">
+        @for(vehicle of slot.vehicules; track $index){
+          @switch (vehicle) {
+            @case (vehiculeTypes.TRUCK) {
+              <i class="bi bi-truck-front-fill"></i>
+            }
+            @case (vehiculeTypes.CAR) {
+              <i class="bi bi-car-front-fill"></i>
+            }
+            @case (vehiculeTypes.MOTORCYCLE) {
+              <i class="bi bi-bicycle"></i>
+            }
+          }
+        }
+        @for(dash of (slot.availablePlaces | numberToArray); track $index){
+        <div class="m-1">
+          <span>.</span>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+  }
+
+</div>

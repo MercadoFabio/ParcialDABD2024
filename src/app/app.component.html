@@ -1,0 +1,14 @@
+<div class="container mt-3">
+  @if(toggleView){
+  <button class="btn btn-primary w-100" (click)="onShowForm()">Nuevo ingreso</button>
+  <div>
+    <app-parking-map></app-parking-map>
+  </div>
+  }
+
+  @if(!toggleView){
+  <div>
+    <app-parking-slot-form (parkingSlotRequestSaved)="onNewParkingRequested()"></app-parking-slot-form>
+  </div>
+  }
+</div>
